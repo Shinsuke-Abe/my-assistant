@@ -22,3 +22,17 @@ def hello(event, context):
         "event": event
     }
     """
+
+
+def create_life_log(event, context):
+    body = {
+        "message": "Go Serverless v1.0! Your function executed successfully!",
+        "input": event
+    }
+
+    response = {
+        "statusCode": 200,
+        "body": json.dump(body)
+    }
+
+    return response

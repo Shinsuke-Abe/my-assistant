@@ -57,6 +57,8 @@ provider:
 functions:
   hello:
     handler: handler.hello
+  create_life_log:
+    handler: handler.create_life_log
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
