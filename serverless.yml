@@ -24,6 +24,18 @@ provider:
 # you can overwrite defaults here
 #  stage: dev
   region: ap-northeast-1
+  environment:
+    LIFE_EVENT_TABLENAME: "lifeEvent_${opt:stage, self.provider.stage}"
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.LIFE_EVENT_TABLENAME}"
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
@@ -98,10 +110,10 @@ resources:
     lifeEvent:
       Type: AWS::DynamoDB::table
       Properties:
-        TableName: lifeEvent
+        TableName: ${self.provider.environment.LIFE_EVENT_TABLENAME}
         AttributeDefinitions:
           - AttributeName: id
-            AttributeType: N
+            AttributeType: S
           - AttributeName: event_name
             AttributeType: S
         KeySchema:
