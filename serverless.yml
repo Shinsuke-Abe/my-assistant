@@ -93,8 +93,23 @@ functions:
 #      variable2: value2
 
 # you can add CloudFormation resource templates here
-#resources:
-#  Resources:
+resources:
+  Resources:
+    lifeEvent:
+      Type: AWS::DynamoDB::table
+      Properties:
+        TableName: lifeEvent
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: N
+          - AttributeName: event_name
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
 #    NewResource:
 #      Type: AWS::S3::Bucket
 #      Properties:
