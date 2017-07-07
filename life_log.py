@@ -5,11 +5,19 @@ import time
 import uuid
 
 import boto3
-dynamodb = boto3.resource('dynamodb')
+# dynamodb = boto3.resouce('dynamodb', endpoint_url='http://localhost:8000') if boto3.resource('dynamodb')
+
+
+def get_dynamodb(event):
+    if 'isOffline' in event and event['isOffline'] is True:
+        return boto3.resource('dynamodb', endpoint_url='http://localhost:8000')
+    else:
+        return boto3.resource('dynamodb')
 
 
 def create_life_log(event, context):
     try:
+        dynamodb = get_dynamodb(event)
         timestamp = int(time.time() * 1000)
 
         table = dynamodb.Table(os.environ['LIFE_EVENT_TABLENAME'])
