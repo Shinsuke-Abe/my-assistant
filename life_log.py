@@ -1,28 +1,38 @@
 import json
+import logging
+import os
+import time
+import uuid
+
+import boto3
+dynamodb = boto3.resource('dynamodb')
 
 
 def create_life_log(event, context):
     try:
-        id_value = event["id"]
+        timestamp = int(time.time() * 1000)
 
-        print(id_value)
+        table = dynamodb.Table(os.environ['LIFE_EVENT_TABLENAME'])
+
+        item = {
+            'id': str(uuid.uuid1()),
+            'event': event['event'],
+            'createdAt': timestamp,
+            'updatedAt': timestamp
+        }
+
+        if 'insight' in event:
+            item['insight'] = event['insight']
+
+        table.put_item(Item=item)
 
         response = {
             "statusCode": 200,
-            "body": json.dumps({
-                "message": "Go Serverless v1.0! "
-                           "Your function named create_life_log "
-                           "executed successfully(separated python file)!",
-                "input": event
-            })
-        }
-    except KeyError:
-        response = {
-            "statusCode": 400,
-            "body": json.dumps({
-                "message": "Your function named create_life_log executed,"
-                           "but not found required input!"
-            })
+            "body": json.dumps(item)
         }
 
-    return response
+        return response
+    except KeyError as e:
+        logging.error("Validation Failed")
+        raise Exception("Coudn't create life log.Detail:{0}".format(e))
+        return
