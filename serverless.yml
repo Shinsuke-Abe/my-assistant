@@ -25,7 +25,7 @@ provider:
 #  stage: dev
   region: ap-northeast-1
   environment:
-    LIFE_EVENT_TABLENAME: "lifeEvent_${opt:stage, self.provider.stage}"
+    LIFE_EVENT_TABLENAME: "lifeEvent_${opt:stage, self:provider.stage}"
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -108,13 +108,11 @@ functions:
 resources:
   Resources:
     lifeEvent:
-      Type: AWS::DynamoDB::table
+      Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self.provider.environment.LIFE_EVENT_TABLENAME}
+        TableName: ${self:provider.environment.LIFE_EVENT_TABLENAME}
         AttributeDefinitions:
           - AttributeName: id
-            AttributeType: S
-          - AttributeName: event_name
             AttributeType: S
         KeySchema:
           - AttributeName: id
