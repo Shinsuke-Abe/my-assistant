@@ -79,6 +79,10 @@ functions:
     handler: handler.hello
   create_life_log:
     handler: life_log.create_life_log
+    events:
+      - http:
+          path: my-assistant/life_log
+          method: post
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
