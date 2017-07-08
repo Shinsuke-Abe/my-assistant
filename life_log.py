@@ -15,21 +15,23 @@ def get_dynamodb(event):
 
 
 def create_life_log(event, context):
+    print(event)
     try:
         dynamodb = get_dynamodb(event)
         timestamp = int(time.time() * 1000)
 
+        data = json.loads(event['body'])
         table = dynamodb.Table(os.environ['LIFE_EVENT_TABLENAME'])
 
         item = {
             'id': str(uuid.uuid1()),
-            'event': event['event'],
+            'event': data['event'],
             'createdAt': timestamp,
             'updatedAt': timestamp
         }
 
-        if 'insight' in event:
-            item['insight'] = event['insight']
+        if 'insight' in data:
+            item['insight'] = data['insight']
 
         table.put_item(Item=item)
 
