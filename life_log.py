@@ -20,6 +20,9 @@ def create_life_log(event, context):
     >>> create_life_log({"isOffline": True}, {})
     Traceback (most recent call last):
     Exception: Coudn't create life log.Detail:'body'
+    >>> create_life_log({"isOffline": True, "body":"{}"}, {})
+    Traceback (most recent call last):
+    Exception: Coudn't create life log.Detail:'event'
     """
     print(event)
     try:
