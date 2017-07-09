@@ -15,7 +15,6 @@ def get_dynamodb(event):
 
 
 def create_life_log(event, context):
-    print(event)
     try:
         dynamodb = get_dynamodb(event)
         timestamp = int(time.time() * 1000)
