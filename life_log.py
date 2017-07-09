@@ -4,19 +4,12 @@ import os
 import time
 import uuid
 
-import boto3
-
-
-def get_dynamodb(event):
-    if 'isOffline' in event and event['isOffline'] is True:
-        return boto3.resource('dynamodb', endpoint_url='http://localhost:8000')
-    else:
-        return boto3.resource('dynamodb')
+from commons import aws_resources
 
 
 def create_life_log(event, context):
     try:
-        dynamodb = get_dynamodb(event)
+        dynamodb = aws_resources.get_dynamodb(event)
         timestamp = int(time.time() * 1000)
 
         data = json.loads(event['body'])
