@@ -79,8 +79,8 @@ package:
 functions:
   hello:
     handler: handler.hello
-  gen_dev_assets:
-    handler: gen_dev_assets.generate
+  generate_swagger:
+    handler: gen_dev_assets.generate_swagger
   create_life_log:
     handler: life_log.create_life_log
     events:

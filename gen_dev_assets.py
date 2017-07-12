@@ -2,5 +2,5 @@ import json
 import boto3
 
 
-def generate(event, context):
+def generate_swagger(event, context):
     return
