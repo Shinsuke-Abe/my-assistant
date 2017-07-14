@@ -34,6 +34,7 @@ provider:
   region: ap-northeast-1
   environment:
     LIFE_EVENT_TABLENAME: "lifeEvent_${opt:stage, self:provider.stage}"
+    SWAGGER_FILE_BUCKET: ${self:provider.stage}-${self:service}-swagger-file
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -44,6 +45,10 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.LIFE_EVENT_TABLENAME}"
+    - Effect: "Allow"
+      Resource: "arn:aws:s3:::${self:provider.environment.SWAGGER_FILE_BUCKET}"
+      Action:
+        - "s3:*"
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
@@ -138,6 +143,10 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+    swaggerFileBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:provider.environment.SWAGGER_FILE_BUCKET}
 #    NewResource:
 #      Type: AWS::S3::Bucket
 #      Properties:
