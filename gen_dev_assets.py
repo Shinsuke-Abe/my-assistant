@@ -6,9 +6,15 @@ import os
 def generate_swagger(event, context):
     client = boto3.client('apigateway')
 
-    staged_apis = [api for api in client.get_rest_apis()['items']
-                   if api['name'] == os.environ['REST_API_NAME']]
+    staged_api = [api for api in client.get_rest_apis()['items']
+                  if api['name'] == os.environ['REST_API_NAME']].pop()
 
-    print(staged_apis.pop())
+    exported_api = client.get_export(
+        restApiId=staged_api['id'],
+        stageName=os.environ['REST_API_STAGE_NAME'],
+        exportType="swagger"
+    )
+
+    print(exported_api)
 
     return
