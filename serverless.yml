@@ -119,6 +119,8 @@ functions:
       REST_API_STAGE_NAME: ${opt:stage, self:provider.stage}
   create_life_log:
     handler: life_log.create_life_log
+    environment:
+      REQUEST_MODEL_SCHEMA: "models/create_life_log_request.json"
     events:
       - http:
           path: my-assistant/life_log

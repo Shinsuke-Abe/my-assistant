@@ -3,6 +3,7 @@ import logging
 import os
 import time
 import uuid
+import jsonschema
 
 from commons import aws_resources
 
@@ -13,6 +14,8 @@ def create_life_log(event, context):
         timestamp = int(time.time() * 1000)
 
         data = json.loads(event['body'])
+        request_schema = json.load(open(os.environ['REQUEST_MODEL_SCHEMA']))
+        jsonschema.validate(data, request_schema)
         table = dynamodb.Table(os.environ['LIFE_EVENT_TABLENAME'])
 
         item = {
