@@ -14,12 +14,30 @@
 service: my-assistant
 plugins:
   - serverless-dynamodb-local
+  - serverless-aws-documentation
 custom:
   dynamodb:
     start:
       port: 8000
       inMemory: true
       migrate: true
+  documentation:
+    version: '1'
+    summary: 'My assistant intelligence API'
+    description: 'アシスタント知性体(を目指す)API'
+    resources:
+      - path: 'my-assistant/life_log'
+        description: 'ライフログをアシスタントに登録します。'
+    models:
+      - name: "CreateLifeLogRequest"
+        description: "ライフログを作成する時のリクエスト"
+        contentType: "application/json"
+        schema: "${file(models/create_life_log_request.json)}"
+      - name: "LifeLog"
+        description: "ライフログのモデル"
+        contentType: "application/json"
+        schema: "${file(models/lie_log.json)}"
+
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -49,6 +67,16 @@ provider:
       Resource: "arn:aws:s3:::${self:provider.environment.SWAGGER_FILE_BUCKET}"
       Action:
         - "s3:*"
+    - Effect: "Allow"
+      Resource: "arn:aws:s3:::${self:provider.environment.SWAGGER_FILE_BUCKET}/*"
+      Action:
+        - "s3:PutObject"
+    - Effect: "Allow"
+      Resource:
+        - "arn:aws:apigateway:${opt:region, self:provider.region}::/restapis/*"
+        - "arn:aws:apigateway:${opt:region, self:provider.region}::/restapis"
+      Action:
+        - "apigateway:GET"
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
@@ -91,10 +119,25 @@ functions:
       REST_API_STAGE_NAME: ${opt:stage, self:provider.stage}
   create_life_log:
     handler: life_log.create_life_log
+    environment:
+      REQUEST_MODEL_SCHEMA: "models/create_life_log_request.json"
     events:
       - http:
           path: my-assistant/life_log
           method: post
+          documentation:
+            summary: "create life log"
+            description: "ライフログを作成します。"
+            requestBody:
+              description: "ライフログの作成要求"
+            requestModels:
+              "application/json": "CreateLifeLogRequest"
+            methodResponses:
+              - statusCode: "200"
+                responseBody:
+                  description: "作成完了結果"
+                responseModels:
+                  "application/json": "LifeLog"
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events

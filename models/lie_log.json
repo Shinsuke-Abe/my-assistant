@@ -1,0 +1,26 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "ライフイベントを一意に決定するID。自動採番されます。",
+      "type": "string"
+    },
+    "event": {
+      "description": "ライフイベントの内容。",
+      "type": "string"
+    },
+    "insight": {
+      "description": "ライフイベントが発生した時の感情(任意)",
+      "type": "string"
+    },
+    "createdAt": {
+      "description": "作成時のタイムスタンプを数値に変換して保存",
+      "type": "integer"
+    },
+    "updatedAt": {
+      "description": "更新時のタイムスタンプを数値に変換して保存",
+      "type": "integer"
+    }
+  },
+  "required": ["id", "event", "createdAt", "updatedAt"]
+}

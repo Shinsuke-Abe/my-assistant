@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "properties": {
+    "event": {
+      "description": "ライフイベントの内容を記載してください。",
+      "type": "string"
+    },
+    "insight": {
+      "description": "ライフイベントが起こった時の感情を記載してください。(任意)",
+      "type": "string"
+    }
+  },
+  "required": ["event"]
+}
