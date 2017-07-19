@@ -21,7 +21,8 @@ def generate_swagger(event, context):
     swagger_file.put(
         Body=exported_api['body'].read().decode('utf-8'),
         ContentEncoding='utf-8',
-        ContentType='text/plane'
+        ContentType='text/plane',
+        ACL='public-read'
     )
 
     return
