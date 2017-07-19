@@ -26,14 +26,9 @@ def generate_swagger(event, context):
             ContentType='text/plane',
             ACL='public-read'
         )
-        swagger_file.reload()
-
-        response = {
-            "swaggerUrl": "/".join(["https://s3-ap-northeast-1.amazonaws.com",
-                                    os.environ['SWAGGER_FILE_BUCKET'],
-                                    "swagger.json"])
-        }
-        return response
+        return "/".join(["https://s3-ap-northeast-1.amazonaws.com",
+                         os.environ['SWAGGER_FILE_BUCKET'],
+                         "swagger.json"])
     except Exception as e:
         logging.error("Generate Swagger-File Failed")
         error = {
