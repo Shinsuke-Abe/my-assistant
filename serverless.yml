@@ -70,7 +70,7 @@ provider:
     - Effect: "Allow"
       Resource: "arn:aws:s3:::${self:provider.environment.SWAGGER_FILE_BUCKET}/*"
       Action:
-        - "s3:PutObject"
+        - "s3:*"
     - Effect: "Allow"
       Resource:
         - "arn:aws:apigateway:${opt:region, self:provider.region}::/restapis/*"

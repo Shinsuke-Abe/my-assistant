@@ -30,9 +30,5 @@ def generate_swagger(event, context):
                          os.environ['SWAGGER_FILE_BUCKET'],
                          "swagger.json"])
     except Exception as e:
-        logging.error("Generate Swagger-File Failed")
-        error = {
-            "name": "GenerateError",
-            "message": "Coudn't create swagger file. Detail:{0}".format(e)
-        }
-        return error
+        logging.error("Generate Swagger-File Failed. Detail:{0}".format(e))
+        raise Exception("Coudn't create swagger file. Detail:{0}".format(e))
