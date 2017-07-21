@@ -17,6 +17,7 @@ var/
 *.egg
 __pycache__
 jsonschema*
+dev.env
 
 # Serverless directories
 .serverless

@@ -15,7 +15,10 @@ service: my-assistant
 plugins:
   - serverless-dynamodb-local
   - serverless-aws-documentation
+  - serverless-step-functions
 custom:
+  accountId: ${env:ACCOUNT_ID}
+  clientGenrateFunction: "arn:aws:lambda:${opt:region, self:provider.region}:${self:custom.accountId}:function:distribute-developers-assets-dev-distribute_client"
   dynamodb:
     start:
       port: 8000
@@ -199,3 +202,92 @@ resources:
 #     NewOutput:
 #       Description: "Description for the output"
 #       Value: "Some output value"
+
+stepFunctions:
+  stateMachines:
+    my-assistant-generate-client:
+      name: ${self:service}-generate-client-${opt:stage, self:provider.stage}
+      definition:
+        Comment: "Swaggerファイルの生成に成功したら、各言語向けにライブラリを生成する。"
+        StartAt: "SetServiceName"
+        States:
+          SetServiceName:
+            Comment: "サービス名の設定"
+            Type: "Pass"
+            Result: ${self:service}
+            ResultPath: "$.serviceName"
+            Next: "GenerateSwaggerFile"
+          GenerateSwaggerFile:
+            Type: "Task"
+            Comment: "Swaggerファイルの生成"
+            Resource: "arn:aws:lambda:${opt:region, self:provider.region}:251689627483:function:${self:service}-${opt:stage, self:provider.stage}-generate_swagger"
+            Catch:
+              - ErrorEquals:
+                - "UnhandledError"
+                Next: "GenerateErrorFallback"
+            ResultPath: "$.swaggerUrl"
+            Next: "GenerateClientParallel"
+          GenerateErrorFallback:
+               Type: "Pass"
+               Result: "This is a fallback from a generate swagger file Lambda function exception"
+               End: true
+          GenerateClientParallel:
+            Type: "Parallel"
+            End: true
+            Branches:
+              - StartAt: "SetLanguageJava"
+                States:
+                  SetLanguageJava:
+                    Comment: "言語設定にJavaを追加する"
+                    Type: "Pass"
+                    Result: "java"
+                    ResultPath: "$.language"
+                    Next: "GenerateClientJava"
+                  GenerateClientJava:
+                    Type: "Task"
+                    Resource: ${self:custom.clientGenrateFunction}
+                    InputPath: "$"
+                    OutputPath: "$"
+                    End: true
+              - StartAt: "SetLanguageRuby"
+                States:
+                  SetLanguageRuby:
+                    Comment: "言語設定にRubyを追加する"
+                    Type: "Pass"
+                    Result: "ruby"
+                    ResultPath: "$.language"
+                    Next: "GenerateClientRuby"
+                  GenerateClientRuby:
+                    Type: "Task"
+                    Resource: ${self:custom.clientGenrateFunction}
+                    InputPath: "$"
+                    OutputPath: "$"
+                    End: true
+              - StartAt: "SetLanguageJavascript"
+                States:
+                  SetLanguageJavascript:
+                    Comment: "言語設定にJavaScriptを追加する"
+                    Type: "Pass"
+                    Result: "javascript"
+                    ResultPath: "$.language"
+                    Next: "GenerateClientJavaScript"
+                  GenerateClientJavaScript:
+                    Type: "Task"
+                    Resource: ${self:custom.clientGenrateFunction}
+                    InputPath: "$"
+                    OutputPath: "$"
+                    End: true
+              - StartAt: "SetLanguageScala"
+                States:
+                  SetLanguageScala:
+                    Comment: "言語設定にScalaを追加する"
+                    Type: "Pass"
+                    Result: "scala"
+                    ResultPath: "$.language"
+                    Next: "GenerateClientScala"
+                  GenerateClientScala:
+                    Type: "Task"
+                    Resource: ${self:custom.clientGenrateFunction}
+                    InputPath: "$"
+                    OutputPath: "$"
+                    End: true
