@@ -16,7 +16,7 @@ var/
 .installed.cfg
 *.egg
 __pycache__
-jsonschema*
+.requirements
 dev.env
 
 # Serverless directories

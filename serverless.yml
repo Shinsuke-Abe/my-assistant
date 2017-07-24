@@ -16,6 +16,7 @@ plugins:
   - serverless-dynamodb-local
   - serverless-aws-documentation
   - serverless-step-functions
+  - serverless-python-requirements
 custom:
   accountId: ${env:ACCOUNT_ID}
   clientGenrateFunction: "arn:aws:lambda:${opt:region, self:provider.region}:${self:custom.accountId}:function:distribute-developers-assets-dev-distribute_client"
@@ -24,6 +25,8 @@ custom:
       port: 8000
       inMemory: true
       migrate: true
+  pythonRequirements:
+    cleanupZipHelper: false
   documentation:
     version: '1'
     summary: 'My assistant intelligence API'
