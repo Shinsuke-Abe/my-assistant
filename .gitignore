@@ -17,7 +17,9 @@ var/
 *.egg
 __pycache__
 .requirements
+.requirements.zip
 dev.env
+unzip_requirements.py
 
 # Serverless directories
 .serverless

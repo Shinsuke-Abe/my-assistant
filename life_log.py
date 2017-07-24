@@ -3,7 +3,7 @@ import logging
 import os
 import time
 import uuid
-import requirements
+import unzip_requirements
 import jsonschema
 
 from commons import aws_resources
