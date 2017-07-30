@@ -6,11 +6,11 @@ jobs:
     steps:
       - checkout
       - run:
-        name: deploy serverless functions
-        command: sls deploy -v
+          name: deploy serverless functions
+          command: sls deploy -v
       - run:
-        name: distribute developers assets
-        command: sls invoke stepf --name my-assistant-generate-client
+          name: distribute developers assets
+          command: sls invoke stepf --name my-assistant-generate-client
     filters:
       branches:
         only: master
