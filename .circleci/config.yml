@@ -6,6 +6,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: install project dependencies plugins
+          command: sudo npm install serverless-dynamodb-local
+      - run:
           name: deploy serverless functions
           command: sls deploy -v
       - run:
