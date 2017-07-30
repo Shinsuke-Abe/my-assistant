@@ -4,7 +4,7 @@ jobs:
     docker:
       - image: shinsukeabe/circleci-serverless-python3:latest
     steps:
-      - checkout:
+      - checkout
       - run:
         name: deploy serverless functions
         command: sls deploy -v
