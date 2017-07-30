@@ -13,7 +13,7 @@ jobs:
           command: sls deploy -v
       - run:
           name: distribute developers assets
-          command: sls invoke stepf --name my-assistant-generate-client
+          command: sls invoke stepf --name my-assistant-generate-client-dev
     filters:
       branches:
         only: master
