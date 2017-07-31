@@ -58,7 +58,7 @@ provider:
   region: ap-northeast-1
   environment:
     LIFE_EVENT_TABLENAME: "lifeEvent_${opt:stage, self:provider.stage}"
-    SWAGGER_FILE_BUCKET: ${self:provider.stage}-${self:service}-swagger-file
+    SWAGGER_FILE_BUCKET: ${opt:stage, self:provider.stage}-${self:service}-swagger-file
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -208,8 +208,7 @@ resources:
 
 stepFunctions:
   stateMachines:
-    my-assistant-generate-client:
-      name: ${self:service}-generate-client-${opt:stage, self:provider.stage}
+    myAssistantGenerateClient:
       definition:
         Comment: "Swaggerファイルの生成に成功したら、各言語向けにライブラリを生成する。"
         StartAt: "SetServiceName"
