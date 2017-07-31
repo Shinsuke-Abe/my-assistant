@@ -58,7 +58,7 @@ provider:
   region: ap-northeast-1
   environment:
     LIFE_EVENT_TABLENAME: "lifeEvent_${opt:stage, self:provider.stage}"
-    SWAGGER_FILE_BUCKET: ${self:provider.stage}-${self:service}-swagger-file
+    SWAGGER_FILE_BUCKET: ${opt:stage, self:provider.stage}-${self:service}-swagger-file
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -208,8 +208,7 @@ resources:
 
 stepFunctions:
   stateMachines:
-    my-assistant-generate-client:
-      name: ${self:service}-generate-client-${opt:stage, self:provider.stage}
+    myAssistantGenerateClient:
       definition:
         Comment: "Swaggerファイルの生成に成功したら、各言語向けにライブラリを生成する。"
         StartAt: "SetServiceName"
@@ -247,8 +246,10 @@ stepFunctions:
                     ResultPath: "$.language"
                     Next: "GenerateClientJava"
                   GenerateClientJava:
-                    Type: "Task"
-                    Resource: ${self:custom.clientGenrateFunction}
+                    # Type: "Task"
+                    # Resource: ${self:custom.clientGenrateFunction}
+                    Type: "Pass"
+                    Result: "java generated"
                     InputPath: "$"
                     OutputPath: "$"
                     End: true
@@ -261,8 +262,10 @@ stepFunctions:
                     ResultPath: "$.language"
                     Next: "GenerateClientRuby"
                   GenerateClientRuby:
-                    Type: "Task"
-                    Resource: ${self:custom.clientGenrateFunction}
+                    # Type: "Task"
+                    # Resource: ${self:custom.clientGenrateFunction}
+                    Type: "Pass"
+                    Result: "ruby generated"
                     InputPath: "$"
                     OutputPath: "$"
                     End: true
@@ -275,8 +278,10 @@ stepFunctions:
                     ResultPath: "$.language"
                     Next: "GenerateClientJavaScript"
                   GenerateClientJavaScript:
-                    Type: "Task"
-                    Resource: ${self:custom.clientGenrateFunction}
+                    # Type: "Task"
+                    # Resource: ${self:custom.clientGenrateFunction}
+                    Type: "Pass"
+                    Result: "javascript generated"
                     InputPath: "$"
                     OutputPath: "$"
                     End: true
@@ -289,8 +294,10 @@ stepFunctions:
                     ResultPath: "$.language"
                     Next: "GenerateClientScala"
                   GenerateClientScala:
-                    Type: "Task"
-                    Resource: ${self:custom.clientGenrateFunction}
+                    # Type: "Task"
+                    # Resource: ${self:custom.clientGenrateFunction}
+                    Type: "Pass"
+                    Result: "scala generated"
                     InputPath: "$"
                     OutputPath: "$"
                     End: true
