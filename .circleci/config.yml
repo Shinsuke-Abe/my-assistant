@@ -14,6 +14,7 @@ jobs:
       - run:
           name: distribute developers assets
           command: sls invoke stepf --name myAssistantGenerateClient
-    filters:
-      branches:
-        only: master
+general:
+  branches:
+    only:
+      - master
