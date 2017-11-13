@@ -126,11 +126,15 @@ functions:
     handler: user_management.confirm
   sign_in:
     handler: user_management.sign_in
+  refresh_token:
+    handler: user_management.refresh_token
   generate_swagger:
     handler: gen_dev_assets.generate_swagger
     environment:
       REST_API_NAME: ${opt:stage, self:provider.stage}-${self:service}
       REST_API_STAGE_NAME: ${opt:stage, self:provider.stage}
+  auth:
+    handler: life_log.auth
   create_life_log:
     handler: life_log.create_life_log
     environment:

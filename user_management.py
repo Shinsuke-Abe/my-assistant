@@ -47,3 +47,16 @@ def sign_in(event, context):
     )
 
     return response
+
+
+def refresh_token(event, context):
+    response = client.initiate_auth(
+        ClientId=os.environ['COGNITO_POOL_CLIENT_ID'],
+        AuthFlow="REFRESH_TOKEN",
+        AuthParameters={
+            "USERNAME": event['Username'],
+            "REFRESH_TOKEN": event['refresh_token']
+        }
+    )
+
+    return response
