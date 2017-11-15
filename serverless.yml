@@ -143,6 +143,7 @@ functions:
       - http:
           path: my-assistant/life_log
           method: post
+          authorizer: auth
           documentation:
             summary: "create life log"
             description: "ライフログを作成します。"
