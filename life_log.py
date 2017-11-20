@@ -5,6 +5,7 @@ import time
 import uuid
 import unzip_requirements
 import jsonschema
+import boto3
 
 from commons import aws_resources
 
@@ -41,3 +42,35 @@ def create_life_log(event, context):
         logging.error("Validation Failed")
         raise Exception("Coudn't create life log.Detail:{0}".format(e))
         return
+
+
+def auth(event, context):
+    token = event['authorizationToken'] \
+            if event['authorizationToken'] is not None \
+            else event['header']['headers']['authorization']
+    client = boto3.client('cognito-idp')
+
+    try:
+        data = client.get_user(
+            AccessToken=token
+        )
+        logging.info(data)
+
+        return generate_policy('user', 'Allow', event['methodArn'])
+    except Exception as e:
+        logging.error("AuthError:{0}".format(e))
+        return generate_policy('user', 'Deny', event['methodArn'])
+
+
+def generate_policy(principal_id, effect, resource):
+    return {
+        'principalId': principal_id,
+        'policyDocument': {
+            'Version': '2012-10-17',
+            'Statement': [{
+                'Action': 'execute-api:Invoke',
+                'Effect': effect,
+                'Resource': resource
+            }]
+        }
+    }
