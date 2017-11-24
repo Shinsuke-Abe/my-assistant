@@ -119,7 +119,7 @@ package:
 
 functions:
   hello:
-    handler: handler.hello
+    handler: apps/handler.hello
   sign_up:
     handler: user_management.sign_up
   confirm_sign_up:
@@ -134,9 +134,9 @@ functions:
       REST_API_NAME: ${opt:stage, self:provider.stage}-${self:service}
       REST_API_STAGE_NAME: ${opt:stage, self:provider.stage}
   auth:
-    handler: life_log.auth
+    handler: apps/life_log.auth
   create_life_log:
-    handler: life_log.create_life_log
+    handler: apps/life_log.create_life_log
     environment:
       REQUEST_MODEL_SCHEMA: "models/create_life_log_request.json"
     events:
