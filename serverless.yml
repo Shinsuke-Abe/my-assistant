@@ -192,7 +192,7 @@ functions:
 
 # you can add CloudFormation resource templates here
 resources:
-  Resources: "${file(resources.yml)}"
+  Resources: "${file(config/resources.yml)}"
 
 #  Outputs:
 #     NewOutput:
