@@ -121,15 +121,15 @@ functions:
   hello:
     handler: apps/handler.hello
   sign_up:
-    handler: user_management.sign_up
+    handler: infra/user_management.sign_up
   confirm_sign_up:
-    handler: user_management.confirm
+    handler: infra/user_management.confirm
   sign_in:
-    handler: user_management.sign_in
+    handler: infra/user_management.sign_in
   refresh_token:
-    handler: user_management.refresh_token
+    handler: infra/user_management.refresh_token
   generate_swagger:
-    handler: gen_dev_assets.generate_swagger
+    handler: infra/gen_dev_assets.generate_swagger
     environment:
       REST_API_NAME: ${opt:stage, self:provider.stage}-${self:service}
       REST_API_STAGE_NAME: ${opt:stage, self:provider.stage}
