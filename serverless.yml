@@ -119,24 +119,24 @@ package:
 
 functions:
   hello:
-    handler: handler.hello
+    handler: apps/handler.hello
   sign_up:
-    handler: user_management.sign_up
+    handler: infra/user_management.sign_up
   confirm_sign_up:
-    handler: user_management.confirm
+    handler: infra/user_management.confirm
   sign_in:
-    handler: user_management.sign_in
+    handler: infra/user_management.sign_in
   refresh_token:
-    handler: user_management.refresh_token
+    handler: infra/user_management.refresh_token
   generate_swagger:
-    handler: gen_dev_assets.generate_swagger
+    handler: infra/gen_dev_assets.generate_swagger
     environment:
       REST_API_NAME: ${opt:stage, self:provider.stage}-${self:service}
       REST_API_STAGE_NAME: ${opt:stage, self:provider.stage}
   auth:
-    handler: life_log.auth
+    handler: apps/life_log.auth
   create_life_log:
-    handler: life_log.create_life_log
+    handler: apps/life_log.create_life_log
     environment:
       REQUEST_MODEL_SCHEMA: "models/create_life_log_request.json"
     events:
@@ -192,7 +192,7 @@ functions:
 
 # you can add CloudFormation resource templates here
 resources:
-  Resources: "${file(resources.yml)}"
+  Resources: "${file(config/resources.yml)}"
 
 #  Outputs:
 #     NewOutput:

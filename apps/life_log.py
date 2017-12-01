@@ -3,7 +3,10 @@ import logging
 import os
 import time
 import uuid
-import unzip_requirements
+try:
+    import unzip_requirements
+except ImportError:
+    pass
 import jsonschema
 import boto3
 
