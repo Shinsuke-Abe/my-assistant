@@ -89,3 +89,24 @@ swaggerFileBucket:
   Type: AWS::S3::Bucket
   Properties:
     BucketName: ${self:provider.environment.SWAGGER_FILE_BUCKET}
+MyAssistantCMK:
+  Type: AWS::KMS::Key
+  Properties:
+    Description: "Application Master Key"
+    Enabled: true
+    EnableKeyRotation: false
+    KeyPolicy:
+      Version: "2012-10-17"
+      Statement:
+        - Sid: "Allow CMK"
+          Effect: "Allow"
+          Principal:
+            AWS : "arn:aws:iam::${self:custom.accountId}:root"
+          Action: "kms:*"
+          Resource: "*"
+MyAssistantCMKAlias:
+  Type: AWS::KMS::Alias
+  Properties:
+    AliasName: "alias/MyAssistantCMKAlias"
+    TargetKeyId:
+      Ref : "MyAssistantCMK"

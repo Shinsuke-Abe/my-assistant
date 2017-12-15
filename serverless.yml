@@ -85,6 +85,14 @@ provider:
         - "arn:aws:apigateway:${opt:region, self:provider.region}::/restapis"
       Action:
         - "apigateway:GET"
+    - Effect: "Allow"
+      Resource: "arn:aws:kms:${opt:region, self:provider.region}:${self:custom.accountId}:alias/MyAssistantCMKAlias"
+      Action:
+        - kms:Encrypt
+        - kms:Decrypt
+        - kms:ReEncrypt*
+        - kms:GenerateDataKey*
+        - kms:DescribeKey
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
