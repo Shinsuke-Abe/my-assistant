@@ -10,7 +10,7 @@ from Crypto import Random
 class AESCipher(object):
     def __init__(self, key, block_size=32):
         self.bs = block_size
-        if len(key) >= len(block_size):
+        if len(key) >= block_size:
             self.key = key[:block_size]
         else:
             self.key = self._pad(key)

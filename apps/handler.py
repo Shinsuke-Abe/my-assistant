@@ -23,7 +23,7 @@ def hello(event, context):
     )
     print(plaintext_key)
 
-    cipher = AESCipher(plaintext_key)
+    cipher = AESCipher.AESCipher(plaintext_key["Plaintext"])
     encrypted_message = cipher.encrypt(plain_message)
     print(encrypted_message)
 
