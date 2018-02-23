@@ -61,6 +61,7 @@ provider:
     SWAGGER_FILE_BUCKET: ${opt:stage, self:provider.stage}-${self:service}-swagger-file
     COGNITO_POOL_ID: "${env:COGNITO_POOL_ID}"
     COGNITO_POOL_CLIENT_ID: "${env:COGNITO_POOL_CLIENT_ID}"
+    LAMBDA_TASK_ROOT: "${env:LAMBDA_TASK_ROOT}"
   iamRoleStatements:
     - Effect: "Allow"
       Action:
