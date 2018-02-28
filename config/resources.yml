@@ -85,6 +85,19 @@ lifeEvent:
     ProvisionedThroughput:
       ReadCapacityUnits: 1
       WriteCapacityUnits: 1
+externalAPIs:
+  Type: AWS::DynamoDB::Table
+  Properties:
+    TableName: ${self:provider.environment.EXTERNAL_APIS_TABLENAME}
+    AttributeDefinitions:
+      - AttributeName: serviceName
+        AttributeType: S
+    KeySchema:
+      - AttributeName: serviceName
+        KeyType: HASH
+    ProvisionedThroughput:
+      ReadCapacityUnits: 1
+      WriteCapacityUnits: 1
 swaggerFileBucket:
   Type: AWS::S3::Bucket
   Properties:
